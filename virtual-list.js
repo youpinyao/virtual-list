@@ -56,7 +56,6 @@ class VirtualList {
     const container = this.getContainer();
 
     [...items].splice(0, max * 2).forEach((item, index) => {
-      item.setAttribute("data-index", index);
       container.appendChild(item);
       this.intersectionObserver.observe(item);
     });
@@ -81,7 +80,7 @@ class VirtualList {
     const container = this.getContainer();
     let height = 0;
 
-    for (let index = 0; index <= length; index++) {
+    for (let index = 0; index < length; index++) {
       height += container.firstElementChild.clientHeight;
       this.intersectionObserver.unobserve(container.firstElementChild);
       container.removeChild(container.firstElementChild);
@@ -94,9 +93,7 @@ class VirtualList {
     const { options } = this;
     const { items } = options;
     const container = this.getContainer();
-    const originalIndex = parseInt(
-      container.firstElementChild.getAttribute("data-index")
-    );
+    const originalIndex = items.indexOf(container.firstElementChild);
     let height = 0;
 
     for (
@@ -115,7 +112,7 @@ class VirtualList {
   removeLastChild(length) {
     const container = this.getContainer();
 
-    for (let index = 0; index <= length; index++) {
+    for (let index = 0; index < length; index++) {
       this.intersectionObserver.unobserve(container.lastElementChild);
       container.removeChild(container.lastElementChild);
     }
@@ -124,9 +121,7 @@ class VirtualList {
     const { options } = this;
     const { items } = options;
     const container = this.getContainer();
-    const originalIndex = parseInt(
-      container.lastElementChild.getAttribute("data-index")
-    );
+    const originalIndex = items.indexOf(container.lastElementChild);
 
     for (
       let index = originalIndex + 1;
@@ -136,7 +131,6 @@ class VirtualList {
       if (index >= items.length) break;
       const item = items[index];
 
-      item.setAttribute("data-index", index);
       container.appendChild(item);
       this.intersectionObserver.observe(container.lastElementChild);
     }
