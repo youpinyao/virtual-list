@@ -1,4 +1,9 @@
 class VirtualList {
+  locked = false;
+  options;
+  placeholder;
+  container;
+
   constructor(options) {
     this.options = options;
     this.handleScroll = this.handleScroll.bind(this);
